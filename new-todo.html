@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>Add new todo task</title>
+    </head>
+    <body>
+        <p>Users: <select id="userList" name="Users"></select></p>
+        <p>Category: <select id="categoryList" name="category"></select></p>
+        <p><label for="description">Description</label><textarea id="description" rows="5" cols="50"></textarea></p>
+        <p>Deadline: <input type="text" id="deadline"/></p>
+        <p>Priority: <select id="priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select></p>
+        <p><input type="button" id="addTodoBtn" value="Add Todo Task"></p>
+        <div id="addedConfirmation"></div>
+    </body>
+    <script src="scripts/newtodo.js"></script>
+</html>
