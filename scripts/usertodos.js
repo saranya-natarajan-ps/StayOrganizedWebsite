@@ -42,24 +42,15 @@ function showUserTodos(){
                 let row = todoTable.insertRow(-1);
                 let cell1 = row.insertCell(0);
                 let cell2 = row.insertCell(1);
-                let cell3 = row.insertCell(2);
-                let cell4 = row.insertCell(3);
-                let cell5 = row.insertCell(4);
+                
+                cell1.innerHTML = data[i].description;
+                cell2.innerHTML = data[i].deadline;
 
-                cell1.innerHTML = data[i].category;
-                cell2.innerHTML = data[i].description;
-                cell3.innerHTML = data[i].deadline;
-                cell4.innerHTML = data[i].priority;
-
-                let completeImg = document.createElement("img");
-                completeImg.style.height ="20px";
-                if (data[i].completed){
-                    completeImg.src = "images/greentick-new.png";
-                }
-                else{
-                    completeImg.src = "images/redx.png";
-                }
-                cell5.appendChild(completeImg);
+                const detailsCell = row.insertCell();
+                let anchor = document.createElement("a");
+                anchor.href = `todo_details.html?cid=${data[i].id}`;
+                anchor.text = "See details";  
+                detailsCell.appendChild(anchor);
             }
         }
     });
