@@ -27,7 +27,6 @@ function showUserTodos(){
     let userId = userList.value;
     //get todo table
     const todoTable = document.getElementById("todoTable");
-    //const todoBody = todoTable.;
 
     //Clear table
     clearTable();
@@ -37,7 +36,6 @@ function showUserTodos(){
     .then(response => response.json())
     .then(data => {
         for (let i=0; i<data.length; i++){
-            //window.alert(userId+" "+data[i].userid)
             if (data[i].userid == userId) {
                 let row = todoTable.insertRow(-1);
                 let cell1 = row.insertCell(0);
@@ -56,6 +54,7 @@ function showUserTodos(){
     });
 }
 
+//clear table function
 function clearTable(){
     const todoTable = document.getElementById("todoTable");
     let tableLength = todoTable.rows.length;
