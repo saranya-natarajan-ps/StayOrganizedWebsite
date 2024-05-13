@@ -18,7 +18,7 @@ window.onload = function(){
 
     //fetch catefory from api and add to options
     const categoryList = document.getElementById("categoryList");
-    //add select Categoty option
+    //add select Category option
     let selectCategory = new Option("Select Categoty","Selectcat");
     categoryList.appendChild(selectCategory);
 
