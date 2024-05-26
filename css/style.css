@@ -1,0 +1,44 @@
+.headerbg-color {
+    background-color: #cda43f;
+}
+.text-white{
+    color: white;
+}
+.wrapper-color{
+    background-color: #dff4f7;
+}
+.text-right{
+    text-align: right;
+}
+
+.font-text {
+    font-weight: bold;
+    color: #483d41;
+}
+.text-shadow{
+    text-shadow: 2px 2px 2px #483d41;
+    color: #483d41;
+
+}
+.text-color{
+    color: #483d41;
+}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #182fa4;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+.min-height{
+    min-height: 600px;
+}
+  

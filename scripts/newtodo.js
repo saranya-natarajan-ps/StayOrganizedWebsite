@@ -16,12 +16,13 @@ window.onload = function(){
         }
     });
 
-    //fetch catefory from api and add to options
+    //fetch category from api and add to options
     const categoryList = document.getElementById("categoryList");
     //add select Category option
-    let selectCategory = new Option("Select Categoty","Selectcat");
+    let selectCategory = new Option("Select Category","Select Category");
     categoryList.appendChild(selectCategory);
 
+    //add categories from api
     fetch("http://localhost:8083/api/categories")
     .then(response => response.json())
     .then(category => {
@@ -31,12 +32,15 @@ window.onload = function(){
         }
     });
 
+    //get add todo button
     const addTodoBtn = document.getElementById("addTodoBtn");
     addTodoBtn.onclick = addNewTodo;
+    
 }
 
+//function to add new todo task
 function addNewTodo(){
-     
+    //compose body 
     let todoData = {
         id : "",
         userid : document.getElementById("userList").value,
@@ -46,7 +50,7 @@ function addNewTodo(){
         priority: document.getElementById("priority").value,
         completed: ""
     }
-    console.log(todoData);
+    //create a POST request
     fetch("http://localhost:8083/api/todos", {
         method: "POST",
         body: JSON.stringify(todoData),
@@ -55,10 +59,11 @@ function addNewTodo(){
     })
         .then(response => response.json())
         .then(json => {
+            //add confirmation message
             let message = "Todo ID " +json.id+ " with  " +todoData.category+" added successfully!";
             let confirmation = document.getElementById("addedConfirmation");
             confirmation.innerHTML = message;
         });
-
+window.alert("Task added sucessfully");
     
 }

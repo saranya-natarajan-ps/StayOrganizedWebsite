@@ -1,83 +1,121 @@
 "use strict";
+let userstate = false;
+let passwordstate = false;
 
-window.onload = function(){
-    //get add user button and call checkPage onclick
+window.onload = function () {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+  
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+  
+        form.classList.add('was-validated')
+      }, false)
+    })
     const addUserBtn = document.getElementById("addUserBtn");
-    addUserBtn.onclick = checkPage;
+    addUserBtn.onclick = addUser;
+    //return false;
 }
 
-//created async fuction to await a promise
-async function checkPage(){
-    //get user name from window
-    const userName = document.getElementById("userName");
-    //check if username is available to use
-    const json = await getUser(userName.value);
-    const availabilityDiv = document.getElementById("availabilityDiv");
-    const passwordmatchDiv = document.getElementById("passwordmatchDiv");
-    if (json.available){
-        //confirmation message
-        availabilityDiv.innerHTML = "User Name Available";
-        //check if passwords matches
-        let passwordMatch = doesPasswordsMatch();
-        console.log(passwordMatch);
-        if (passwordMatch){
-            passwordmatchDiv.innerHTML = " ";
-            //call add user function if user name is available and passwords matches
-            addUser();
-        }
-        else{
-            //confirmation message for password mismatch
-            passwordmatchDiv.innerHTML = "Password and Confirm Password does not match";
-        }
+/*function validateName(){
+    const uname = document.getElementById("name");
+    const isValidName = document.getElementById("isValidName");
+
+    if (uname.value != ""){
+        isValidName.innerHTML = "Valid Name";
+    }else{
+        isValidName.innerHTML = "Please fill name";
     }
-    else{
-        //confirmation message for username unavailable
+}*/
+
+//created async fuction to await a promise
+async function usernameValidation() {
+    const availabilityDiv = document.getElementById("availabilityDiv");
+    console.log("validating username");
+    const userName = document.getElementById("userName");
+    console.log(userName.value);
+    const json = await getUser(userName.value);
+    console.log(json);
+
+    if (json.available) {
+        //confirmation message
+        availabilityDiv.innerHTML = "User name available";
+        console.log("available");
+        userstate = true;
+        return true;
+    } else {
+        //confirmation message for password mismatch
         availabilityDiv.innerHTML = "User Name already in use, please use a different one";
+        console.log("unavailable");
+        userstate = false;
+        //window.alert();
+        return false;
     }
 }
 
 //function to return username avaiability
-async function getUser(userId){
-    return fetch("http://localhost:8083/api/username_available/"+userId)
-        .then((response)=>response.json())
-        .then((responseJson)=>{return responseJson});
+async function getUser(userId) {
+    return fetch("http://localhost:8083/api/username_available/" + userId)
+        .then((response) => response.json())
+        .then((responseJson) => { return responseJson });
 }
 
-//fucntion to check if password matches
-function doesPasswordsMatch(){
-    //get password and confirm password values
+function passwordValidation() {
+    console.log("validating password")
     const passwordF = document.getElementById("password");
     const confirmPasswordF = document.getElementById("confirmPassword");
-    let password = passwordF.value;
-    let confirmPassword = confirmPasswordF.value;
-    //check if passwords matches and return boolean
-    if (password == confirmPassword){
-        return true;
+    const passwordmatchDiv = document.getElementById("passwordmatchDiv");
+    if (passwordF.value == "" || confirmPasswordF == ""){
+        passwordmatchDiv.innerHTML = " ";
+        passwordstate = false;
+        return false;
     }
-    else{
+    if (passwordF.value == confirmPasswordF.value) {
+        passwordmatchDiv.innerHTML = "Password Matches";
+        passwordstate = true;
+        return true;
+    } else {
+        console.log("I am in pwd false")
+        passwordmatchDiv.innerHTML = "Password and Confirm Password does not match";
+        passwordstate = false;
         return false;
     }
 }
 
 //function add user
-function addUser(){
-    //construct body
-    let userBody = {
-        id : "",
-        name : document.getElementById("name").value,
-        username : document.getElementById("userName").value,
-        password : document.getElementById("password").value
+function addUser() {
+    console.log(userstate, passwordstate)
+    let finalstate = false;
+    if (userstate && passwordstate) {
+        finalstate = true;
     }
-    //create a post request
-    fetch("http://localhost:8083/api/users", {
-        method : "POST",
-        body : JSON.stringify(userBody),
-        headers: {"Content-type": 
-              "application/json; charset=UTF-8"}
-    })
-    .then(response => response.json())
-    .then(data => {
-        //redirect to user-todos page
-        location.replace("user-todos.html");
-    });
+    //construct body
+    if (finalstate) {
+        let userBody = {
+            id: "",
+            name: document.getElementById("name").value,
+            username: document.getElementById("userName").value,
+            password: document.getElementById("password").value
+        }
+        //create a post request
+        fetch("http://localhost:8083/api/users", {
+            method: "POST",
+            body: JSON.stringify(userBody),
+            headers: {
+                "Content-type":
+                    "application/json; charset=UTF-8"
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+            });
+            window.alert("User added successfully");
+    } else {
+        window.alert("Issue in either username or password");
+    }
 }
