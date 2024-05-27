@@ -1,5 +1,5 @@
 "use strict";
-localStorage.setItem("deletedTask", "");
+//localStorage.setItem("deletedTask", "");
 //Fetch users from /api/users and display it in select options
 window.onload = function () {
     //get userList
